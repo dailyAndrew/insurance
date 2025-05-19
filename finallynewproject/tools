@@ -1,0 +1,46 @@
+this will create the header for each page
+<!-- <div id="navbar-placeholder"></div>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", async () => {
+    // Load navbar.html into placeholder
+    const navbarContainer = document.getElementById("navbar-placeholder");
+    const res = await fetch("navbar.html");
+    const html = await res.text();
+    navbarContainer.innerHTML = html;
+
+    const user = JSON.parse(localStorage.getItem("user"));
+    const authArea = document.getElementById("nav-auth-area");
+
+    if (user) {
+      authArea.innerHTML = `
+        <span style="color:white; margin-right: 10px;">Hello, ${user.username}</span>
+        <a href="dashboard.html" class="loginbtn" style="margin-right: 10px;">Dashboard</a>
+        <a href="#" class="loginbtn" id="logoutBtn">Logout</a>
+      `;
+      document.getElementById("logoutBtn").addEventListener("click", (e) => {
+        e.preventDefault();
+        localStorage.removeItem("user");
+        window.location.reload();
+      });
+    } else {
+      authArea.innerHTML = `
+        <a href="signup.html" class="loginbtn">Register</a>
+        <a href="signin.html" class="loginbtn" style="margin-left: 10px;">Log In</a>
+      `;
+    }
+
+    const quoteLink = document.getElementById("quote-link");
+    if (quoteLink) {
+      quoteLink.addEventListener("click", function (e) {
+        e.preventDefault();
+        if (user) {
+          window.location.href = "getaquote.html";
+        } else {
+          window.location.href = "signup.html";
+        }
+      });
+    }
+  });
+</script> -->

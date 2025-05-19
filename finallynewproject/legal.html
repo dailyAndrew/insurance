@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="legal-container">
+        <div id="navbar-placeholder"></div>
+
+      <h2>Legal Information</h2>
+        
+      <section>
+        <h3>Privacy Policy</h3>
+        <p>
+          We collect personal and vehicle information to provide accurate
+          insurance quotes. Your data is securely stored and never sold to third
+          parties. We may share your information with trusted insurance partners
+          only to provide pricing and policy options.
+        </p>
+      </section>
+
+      <section>
+        <h3>Terms & Conditions</h3>
+        <p>
+          By using this site, you agree to provide accurate and truthful
+          information when requesting a quote. Quotes are for informational
+          purposes only and do not guarantee coverage or pricing. We reserve the
+          right to modify or discontinue services at any time.
+        </p>
+      </section>
+
+      <section>
+        <h3>Disclaimer</h3>
+        <p>
+          AutoQuote is not an insurance company. We partner with licensed
+          insurers to provide preliminary quotes based on user-provided data.
+          Final policy approval and pricing are subject to the insurer's review
+          and underwriting process.
+        </p>
+      </section>
+    </main>
+    <script>
+  document.addEventListener("DOMContentLoaded", async () => {
+    // Load navbar.html into placeholder
+    const navbarContainer = document.getElementById("navbar-placeholder");
+    const res = await fetch("navbar.html");
+    const html = await res.text();
+    navbarContainer.innerHTML = html;
+
+    const user = JSON.parse(localStorage.getItem("user"));
+    const authArea = document.getElementById("nav-auth-area");
+
+    if (user) {
+      authArea.innerHTML = `
+        <span style="color:white; margin-right: 10px;">Hello, ${user.username}</span>
+        <a href="dashboard.html" class="loginbtn" style="margin-right: 10px;">Dashboard</a>
+        <a href="#" class="loginbtn" id="logoutBtn">Logout</a>
+      `;
+      document.getElementById("logoutBtn").addEventListener("click", (e) => {
+        e.preventDefault();
+        localStorage.removeItem("user");
+        window.location.reload();
+      });
+    } else {
+      authArea.innerHTML = `
+        <a href="signup.html" class="loginbtn">Register</a>
+        <a href="signin.html" class="loginbtn" style="margin-left: 10px;">Log In</a>
+      `;
+    }
+
+    const quoteLink = document.getElementById("quote-link");
+    if (quoteLink) {
+      quoteLink.addEventListener("click", function (e) {
+        e.preventDefault();
+        if (user) {
+          window.location.href = "getaquote.html";
+        } else {
+          window.location.href = "signup.html";
+        }
+      });
+    }
+  });
+</script>
+
+</body>
+</html>

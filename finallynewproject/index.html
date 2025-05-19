@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Insurance Car Quote</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style2.css" />
+</head>
+<body class="mainbody">
+  <nav class="navbar">
+    <div class="weblogo">
+      <a href="home.html"><img src="logo.png" alt="logo"></a>
+    </div>
+
+    <div class="navbuttons">
+      <a href="home.html" class="navlink">Home</a>
+      <a href="#" id="quote-link" class="navlink">Get a Quote</a>
+
+      <a href="contact.html" class="navlink">Contact Us</a>
+      <a href="legal.html" class="navlink">Legal</a>
+    </div>
+
+    <div class="login" id="nav-auth-area">
+      <!-- This area will be updated by JS -->
+    </div>
+  </nav>
+    <main>
+      <section class="banner">
+        <h1>Daily Auto Insurance Rates</h1>
+        <div class="banner-content">
+          <div class="quote-box">
+            <h2>Car Insurance As Low As $100/Month**</h2>
+            <a href="getaquote.html" class="start-btn" id="quote-link1">Quote Today</a>
+            <p class="rating">★★★★★ 4.9 Stars Client Experience*</p>
+          </div>
+          <div class="banner-image">
+            <!-- Image placeholder -->
+          </div>
+        </div>
+      </section>
+
+      <section class="employee-stats">
+        <div class="employee-row">
+          <div class="employee-item">
+            <img src="img/emplyee1.png" alt="Employee 1" />
+            <p class="employee-name">Julian Diaz</p>
+            <p class="employee-role">CEO</p>
+          </div>
+          <div class="employee-item">
+            <img src="img/emplyee1.png" alt="Employee 2" />
+            <p class="employee-name">Jinyu Liu</p>
+            <p class="employee-role">CFO</p>
+          </div>
+          <div class="employee-item">
+            <img src="img/emplyee6.jpg" alt="Employee 3" />
+            <p class="employee-name">Gerasimina Krani</p>
+            <p class="employee-role">Tech Lead</p>
+          </div>
+        </div>
+        <div class="employee-row">
+          <div class="employee-item">
+            <img src="img/emplyee1.png" alt="Employee 4" />
+            <p class="employee-name">AbuBakar Marah</p>
+            <p class="employee-role">Tech Lead</p>
+          </div>
+          <div class="employee-item">
+            <img src="img/emplyee1.png" alt="Employee 5" />
+            <p class="employee-name">Andrew Buestan</p>
+            <p class="employee-role">Tech Lead</p>
+          </div>
+          <div class="employee-item">
+            <img src="img/emplyee1.png" alt="Employee 6" />
+            <p class="employee-name">Sergio Lozano</p>
+            <p class="employee-role">Tech Lead</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="quote-process">
+        <h3>
+          Quoting online with The Daily Auto is fast and easy. It takes <br />
+          5 steps & 8 minutes. Here's what you can expect:
+        </h3>
+        <ol>
+          <li>Describe your car.</li>
+          <li>Select the type of insurance you need.</li>
+          <li>Provide your car protection.</li>
+          <li>Choose the level of protection you want.</li>
+          <li>Get a customizable quote!</li>
+        </ol>
+        <a href="getaquote.html" class="start-btn">Start Quote</a>
+        <p class="disclaimer">
+          ** Car insurance rates are based on various factors including driving
+          history, vehicle type, location, and coverage selections. Rates
+          provided are estimates and not guaranteed. Final premiums are
+          determined at the time of quote issuance and may vary based on
+          underwriting criteria and state regulations. Coverage options and
+          discounts are subject to eligibility and may not be available in all
+          states. Please review your policy for full details on terms,
+          conditions, and exclusions.
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-section">
+        <h3>Products</h3>
+        <a href="#">Auto</a>
+      </div>
+      <div class="footer-section">
+        <h3>Company</h3>
+        <a href="#">About Us</a>
+      </div>
+      <div class="footer-section">
+        <h3>Connect</h3>
+        <a href="contact.php">Contact Us</a>
+      </div>
+    </footer>
+</body>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const authArea = document.getElementById("nav-auth-area");
+
+    if (user) {
+      // Logged in: show username, dashboard, and logout
+      authArea.innerHTML = `
+        <span style="color:white; margin-right: 10px;">Hello, ${user.username}</span>
+        <a href="dashboard.html" class="loginbtn" style="margin-right: 10px;">Dashboard</a>
+        <a href="#" class="loginbtn" id="logoutBtn">Logout</a>
+      `;
+
+      document.getElementById("logoutBtn").addEventListener("click", (e) => {
+        e.preventDefault();
+        localStorage.removeItem("user");
+        window.location.reload();
+      });
+    } else {
+      // Not logged in: show register and login
+      authArea.innerHTML = `
+        <a href="signup.html" class="loginbtn">Register</a>
+        <a href="signin.html" class="loginbtn" style="margin-left: 10px;">Log In</a>
+      `;
+    }
+  });
+  
+</script>
+<script>
+  document.getElementById("quote-link").addEventListener("click", function (e) {
+    e.preventDefault();
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (user) {
+      window.location.href = "getaquote.html";
+    } else {
+      window.location.href = "signup.html";
+    }
+  });
+</script>
+<script>
+  document.getElementById("quote-link").addEventListener("click", function (e) {
+    e.preventDefault();
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (user) {
+      window.location.href = "getaquote.html";
+    } else {
+      window.location.href = "signup.html";
+    }
+  });
+</script>
+<script>
+  document.getElementById("quote-link1").addEventListener("click", function (e) {
+    e.preventDefault();
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (user) {
+      window.location.href = "getaquote.html";
+    } else {
+      window.location.href = "signup.html";
+    }
+  });
+</script>
+
+</html>
