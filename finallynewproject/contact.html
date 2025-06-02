@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="navbar-placeholder"></div>
+
+    <main class="contact-container">
+      <h2>Contact Us</h2>
+      <p>
+        If you have questions or need help, feel free to reach out. We're here
+        for you.
+      </p>
+
+      <form class="contact-form">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" required />
+
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" required />
+
+        <label for="message">Your Message</label>
+        <textarea id="message" name="message" rows="5" required></textarea>
+
+        <button type="submit" class="submit-btn">Send Message</button>
+      </form>
+
+      <div class="contact-info">
+        <h3>Business Info</h3>
+        <p><strong>Email:</strong> support@autoquote.com</p>
+        <p><strong>Phone:</strong> +1 (800) 123-4567</p>
+        <p><strong>Location:</strong> 123 Auto Blvd, Motor City, USA</p>
+      </div>
+    </main>
+    <script>
+  document.addEventListener("DOMContentLoaded", async () => {
+    // Load navbar.html into placeholder
+    const navbarContainer = document.getElementById("navbar-placeholder");
+    const res = await fetch("navbar.html");
+    const html = await res.text();
+    navbarContainer.innerHTML = html;
+
+    const user = JSON.parse(localStorage.getItem("user"));
+    const authArea = document.getElementById("nav-auth-area");
+
+    if (user) {
+      authArea.innerHTML = `
+        <span style="color:white; margin-right: 10px;">Hello, ${user.username}</span>
+        <a href="dashboard.html" class="loginbtn" style="margin-right: 10px;">Dashboard</a>
+        <a href="#" class="loginbtn" id="logoutBtn">Logout</a>
+      `;
+      document.getElementById("logoutBtn").addEventListener("click", (e) => {
+        e.preventDefault();
+        localStorage.removeItem("user");
+        window.location.reload();
+      });
+    } else {
+      authArea.innerHTML = `
+        <a href="signup.html" class="loginbtn">Register</a>
+        <a href="signin.html" class="loginbtn" style="margin-left: 10px;">Log In</a>
+      `;
+    }
+
+    const quoteLink = document.getElementById("quote-link");
+    if (quoteLink) {
+      quoteLink.addEventListener("click", function (e) {
+        e.preventDefault();
+        if (user) {
+          window.location.href = "getaquote.html";
+        } else {
+          window.location.href = "signup.html";
+        }
+      });
+    }
+  });
+</script>
+
+</body>
+</html>

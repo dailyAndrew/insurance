@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Get Your Quote</title>
+  <link rel="stylesheet" href="style.css" />
+  <script type="module" src="quote.js"></script>
+</head>
+<body class="mainbody">
+    <div id="navbar-placeholder"></div>
+
+  <div class="quote-container">
+    <h2>Get Your Car Insurance Quote</h2>
+    <form id="quote-form" class="quote-form">
+      <!-- Personal Information -->
+      <fieldset>
+        <legend>Personal Information</legend>
+        <label>Full Name:
+          <input type="text" id="full_name" required />
+        </label>
+        <label>Date of Birth:
+          <input type="date" id="dob" required />
+        </label>
+        <label>Address:
+          <input type="text" id="address" required />
+        </label>
+        <label>Zip Code:
+          <input type="text" id="zip" required />
+        </label>
+        <label>Phone:
+          <input type="text" id="phone" required />
+        </label>
+      </fieldset>
+
+      <!-- Vehicle Information -->
+      <fieldset>
+        <legend>Vehicle Information</legend>
+        <label>Vehicle Year:
+          <input type="text" id="vehicle_year" required />
+        </label>
+        <label>Make:
+          <select id="make" required>
+            <option value="">-- Select Make --</option>
+            <option>Toyota</option>
+            <option>Honda</option>
+            <option>Ford</option>
+            <option>Chevrolet</option>
+            <option>Nissan</option>
+          </select>
+        </label>
+        <label>Model:
+          <select id="model" required>
+            <option value="">-- Select Model --</option>
+            <option>Camry</option>
+            <option>Civic</option>
+            <option>F-150</option>
+            <option>Silverado</option>
+            <option>Altima</option>
+          </select>
+        </label>
+        <label>VIN (optional):
+          <input type="text" id="vin" />
+        </label>
+        <label>Annual Mileage:
+          <input type="text" id="mileage" required />
+        </label>
+      </fieldset>
+
+      <!-- Driving History -->
+      <fieldset>
+        <legend>Driving History</legend>
+        <label>Driving Experience:
+          <input type="text" id="years_licensed" required />
+        </label>
+        <label>Accidents in Last 5 Years:
+          <select id="accidents" required>
+            <option>0</option>
+            <option>1</option>
+            <option>2</option>
+            <option>3+</option>
+          </select>
+        </label>
+        <label>Reckless driving citation or DUI in last 5 years:
+          <select id="dui" required>
+            <option>0</option>
+            <option>1</option>
+          </select>
+        </label>
+      </fieldset>
+
+      <!-- Additional Information -->
+      <fieldset>
+        <legend>Additional Information</legend>
+        <label>Credit History:
+          <select id="credit" required>
+            <option value="">-- Select --</option>
+            <option>Excellent</option>
+            <option>Good</option>
+            <option>Fair</option>
+            <option>Poor</option>
+          </select>
+        </label>
+        <label>Are you currently a college student?
+          <select id="college" required>
+            <option value="">-- Select --</option>
+            <option>Yes</option>
+            <option>No</option>
+          </select>
+        </label>
+      </fieldset>
+
+      <!-- Coverage Options -->
+      <fieldset>
+        <legend>Coverage Options</legend>
+        <label>Coverage Level:
+          <select id="coverage" required>
+            <option>Basic</option>
+            <option>Standard</option>
+            <option>Premium</option>
+          </select>
+        </label>
+      </fieldset>
+
+      <button type="submit" class="submit-btn">Get Quote</button>
+    </form>
+  </div>
+  <script>
+  document.addEventListener("DOMContentLoaded", async () => {
+    // Load navbar.html into placeholder
+    const navbarContainer = document.getElementById("navbar-placeholder");
+    const res = await fetch("navbar.html");
+    const html = await res.text();
+    navbarContainer.innerHTML = html;
+
+    const user = JSON.parse(localStorage.getItem("user"));
+    const authArea = document.getElementById("nav-auth-area");
+
+    if (user) {
+      authArea.innerHTML = `
+        <span style="color:white; margin-right: 10px;">Hello, ${user.username}</span>
+        <a href="dashboard.html" class="loginbtn" style="margin-right: 10px;">Dashboard</a>
+        <a href="#" class="loginbtn" id="logoutBtn">Logout</a>
+      `;
+      document.getElementById("logoutBtn").addEventListener("click", (e) => {
+        e.preventDefault();
+        localStorage.removeItem("user");
+        window.location.reload();
+      });
+    } else {
+      authArea.innerHTML = `
+        <a href="signup.html" class="loginbtn">Register</a>
+        <a href="signin.html" class="loginbtn" style="margin-left: 10px;">Log In</a>
+      `;
+    }
+
+    const quoteLink = document.getElementById("quote-link");
+    if (quoteLink) {
+      quoteLink.addEventListener("click", function (e) {
+        e.preventDefault();
+        if (user) {
+          window.location.href = "getaquote.html";
+        } else {
+          window.location.href = "signup.html";
+        }
+      });
+    }
+  });
+</script>
+
+</body>
+<script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+    const supabaseUrl = "https://aeoskrbfdgoonnoyyeud.supabase.co";
+    const supabaseKey =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFlb3NrcmJmZGdvb25ub3l5ZXVkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDYzMjEyOTgsImV4cCI6MjA2MTg5NzI5OH0.x0o8TWVaQUolaT48Sf3DxLABGSjUGzo7fyoHkTM-DO4";
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+document.getElementById("quote-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (!user) {
+    alert("Please log in first.");
+    return;
+  }
+
+  // Collect form values
+  const formData = {
+    user_email: user.email,
+    full_name: document.getElementById("full_name").value,
+    dob: document.getElementById("dob").value,
+    address: document.getElementById("address").value,
+    zip_code: document.getElementById("zip").value,
+    phone: document.getElementById("phone").value,
+    vehicle_year: document.getElementById("vehicle_year").value,
+    make: document.getElementById("make").value,
+    model: document.getElementById("model").value,
+    vin: document.getElementById("vin").value,
+    mileage: document.getElementById("mileage").value,
+    years_licensed: parseInt(document.getElementById("years_licensed").value),
+    accidents_last_5: parseInt(document.getElementById("accidents").value),
+    dui_or_reckless: parseInt(document.getElementById("dui").value),
+    credit_history: document.getElementById("credit").value,
+    is_college_student: document.getElementById("college").value,
+    coverage_level: document.getElementById("coverage").value
+  };
+
+  // Send to Supabase
+  const { error } = await supabase.from("insurance_quotes").insert([formData]);
+
+  if (error) {
+    alert("Failed to submit quote: " + error.message);
+  } else {
+    alert("Quote submitted successfully!");
+    e.target.reset();
+  }
+});
+</script>
+
+</html>
